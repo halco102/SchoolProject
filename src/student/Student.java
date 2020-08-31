@@ -1,7 +1,9 @@
 package student;
 
 import courses.Cours;
+import deposit.Deposit;
 
+import java.util.Arrays;
 import java.util.Random;
 import java.util.Scanner;
 
@@ -10,32 +12,19 @@ public class Student {
     private String firstName,lastName;
     private int year,grade,cash;
     private int[] studentID = new int[5];
+    private Cours cours;
+    private Deposit deposit;
+
 
     public Student(){
 
     }
 
-    public void setRandomCash(){
-        int randomNumber ;
-        int min =600;
-        int max =2000;
+    public Student(Cours cours,Deposit deposit){
+        this.cours=cours;
+        this.deposit=deposit;
 
-        randomNumber=(int)(Math.random() * (max-min+1) + min);
-        this.cash=randomNumber;
     }
-
-    public boolean  payTuition(){
-        System.out.println("Do you want to enroll in this class ? \n Y or N");
-        char character ='Y';
-        System.out.println("Input ");
-        Scanner input = new Scanner(System.in);
-        character=input.nextLine().charAt(0);
-        if(character=='Y' || character=='y'){
-            return true;
-        }else
-            return false;
-    }
-
 
     public Student(String firstName, String lastName, int year) {
         this.firstName = firstName;
@@ -51,6 +40,33 @@ public class Student {
         this.cash=cash;
     }
 
+    public void StudentIDAsString(){
+        System.out.print("Student ID : ");
+        System.out.print(getStudentID().toString());
+    }
+
+    public void setRandomCash(){
+        int randomNumber ;
+        int min =600;
+        int max =2000;
+
+        randomNumber=(int)(Math.random() * (max-min+1) + min);
+        this.cash=randomNumber;
+        this.deposit.setBalance(this.cash);
+    }
+
+    public boolean  payTuition(){
+        System.out.println("Do you want to enroll in a course ? \n Y or N");
+        char character ='Y';
+        System.out.println("Input ");
+        Scanner input = new Scanner(System.in);
+        character=input.nextLine().charAt(0);
+        if(character=='Y' || character=='y'){
+            return true;
+        }else
+            return false;
+    }
+
     private int[] RandomID(){
         Random rand = new Random();
         this.studentID[0] = this.grade;
@@ -62,11 +78,28 @@ public class Student {
         return this.studentID;
     }
 
+//getters and setters
+
+
+    public Cours getCours() {
+        return cours;
+    }
+
+    public void setCours(Cours cours) {
+        this.cours = cours;
+    }
+
+    public Deposit getDeposit() {
+        return deposit;
+    }
+
+    public void setDeposit(Deposit deposit) {
+        this.deposit = deposit;
+    }
 
     public int[] getStudentID() {
         return RandomID();
     }
-
 
     public int getCash() {
         return cash;
@@ -74,6 +107,7 @@ public class Student {
 
     public void setCash(int cash) {
         this.cash=cash;
+        this.deposit.setBalance(this.cash);
     }
 
 
@@ -109,4 +143,5 @@ public class Student {
         this.grade = grade;
     }
 
+   //end getter and setter
 }

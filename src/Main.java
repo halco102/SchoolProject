@@ -3,10 +3,11 @@ import deposit.Deposit;
 import student.Student;
 
 import java.util.Scanner;
+import java.util.concurrent.TimeUnit;
 
 public class Main {
 
-    public static void main(String[] args){
+    public static void main(String[] args) throws InterruptedException {
 
         /*
     • Ask the user how many new students will be added to the database.
@@ -30,9 +31,16 @@ public class Main {
         //Input name and year for every student
         Student  students [] = new Student[numberOfStudents];
         Deposit deposit [] = new Deposit[numberOfStudents];
-        Cours cours = new Cours();
+        Cours cours[] = new Cours[numberOfStudents] ;
         for(int i = 0 ; i < numberOfStudents ;i ++){
             students[i]=new Student();
+            deposit[i]=new Deposit();
+            cours[i]=new Cours();
+
+
+            students[i].setCours(cours[i]);
+            students[i].setDeposit(deposit[i]);
+
             //It consumes the /n character
             input.nextLine();
             //
@@ -50,19 +58,36 @@ public class Main {
             //set cash test
             students[i].setRandomCash();
 
-            deposit[i]=new Deposit(students[i]);
+
 
          }
 
         for(int j = 0 ; j < numberOfStudents ; j++){
-            System.out.println("Student " + j + " First name " + students[j].getFirstName() + " has " + deposit[j].getBalance());
+            System.out.println("Student " +"[" + j + "]" + " First name " + students[j].getFirstName() + " has " + deposit[j].getBalance() + "$");
 
         }
         //end
         //enroll classes
-            cours.ListOfCourses();
+        System.out.println("Choose a cours to enroll \n Every cours costs 600$");
+        TimeUnit.SECONDS.sleep(1);
+        cours[0].ListOfCourses();
 
+        int chooseACourse;
+        int temp=0;
+        for (Student student:students) {
+                System.out.print("Student " + student.getFirstName() + " choose a course :");
+                chooseACourse=input.nextInt();
+                student.getCours().enrollCourses(chooseACourse,deposit[temp],student);
+                temp++;
+        }
 
+        //end
+        //test balance after buying
+
+            students[0].getDeposit().checkBalance();
+            students[0].setGrade(4);
+            students[0].StudentIDAsString();
+            //System.out.println(students[0].StudentIDAsString());
         //end
     }
 }

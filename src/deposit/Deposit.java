@@ -11,7 +11,7 @@ public class Deposit {
 
     }
 
-    public Deposit(Student student){
+    public Deposit(Student student){ //not using this for now
         this.student = student;
         this.balance=student.getCash();
     }
@@ -35,8 +35,7 @@ public class Deposit {
 
     public void setBalance(int balance) {
         this.balance = balance;
-        this.student.setCash(this.balance);
-
+        //this.student.setCash(this.balance);
     }
 
 }

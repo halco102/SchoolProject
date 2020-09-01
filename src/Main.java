@@ -2,6 +2,7 @@ import courses.Cours;
 import deposit.Deposit;
 import student.Student;
 
+import java.util.InputMismatchException;
 import java.util.Scanner;
 import java.util.concurrent.TimeUnit;
 
@@ -32,40 +33,46 @@ public class Main {
         Student  students [] = new Student[numberOfStudents];
         Deposit deposit [] = new Deposit[numberOfStudents];
         Cours cours[] = new Cours[numberOfStudents] ;
+
+
         for(int i = 0 ; i < numberOfStudents ;i ++){
             students[i]=new Student();
             deposit[i]=new Deposit();
             cours[i]=new Cours();
 
-
             students[i].setCours(cours[i]);
             students[i].setDeposit(deposit[i]);
-
             //It consumes the /n character
             input.nextLine();
             //
-            System.out.print("Insert First name : ");
-            firstName=input.nextLine();
-            students[i].setFirstName(firstName);
+            do{
+                if(students[i].isClose()==true){
+                    System.out.println("Click Enter to continue");
+                    input.nextLine();
+                }
+                System.out.print("Insert First name : ");
+                firstName=input.nextLine();
+                students[i].setFirstName(firstName);
 
-            System.out.print("Insert last name : ");
-            lastName=input.nextLine();
-            students[i].setLastName(lastName);
-
-            System.out.print("Input year :");
-            year=input.nextInt();
-            students[i].setYear(year);
+                if(students[i].isClose()!=true) {
+                    System.out.print("Insert last name : ");
+                    lastName = input.nextLine();
+                    students[i].setLastName(lastName);
+                        if(students[i].isClose()!=true){
+                            try{
+                                System.out.print("Input year :");
+                                year = input.nextInt();
+                            }catch (InputMismatchException e){
+                                System.out.println("Input integer");
+                                students[i].setClose(true);
+                            }
+                            students[i].setRandomCash();
+                        }
+                }
+            }while (students[i].isClose()==true);
             //set cash test
-            students[i].setRandomCash();
-
-
-
          }
 
-        for(int j = 0 ; j < numberOfStudents ; j++){
-            System.out.println("Student " +"[" + j + "]" + " First name " + students[j].getFirstName() + " has " + deposit[j].getBalance() + "$");
-
-        }
         //end
         //enroll classes
         System.out.println("Choose a cours to enroll \n Every cours costs 600$");
@@ -74,22 +81,42 @@ public class Main {
 
         int chooseACourse;
         int temp=0;
-        for (Student student:students) {
-                System.out.print("Student " + student.getFirstName() + " choose a course :");
-                chooseACourse=input.nextInt();
-                student.getCours().enrollCourses(chooseACourse,deposit[temp],student);
-                temp++;
-        }
+        char ch = 'y';
+
+            for (Student student : students) {
+                while(true) {
+                    try {
+                        do {
+                            System.out.print("Student " + student.getFirstName() + " choose a course :");
+                            chooseACourse = input.nextInt();
+                            student.getCours().enrollCourses(chooseACourse, deposit[temp], student);
+                            student.setCoursArraysList(student.getCours().getCourses());
+                            //String continueString = input.next();
+                            System.out.println("Do you want to enroll in more classes? \n Y or y for yes, N or N for No");
+                            student.getDeposit().checkBalance();
+                            ch=input.next().charAt(0);
+                        }while (ch=='y'||ch=='Y');
+                        temp++;
+                        break;
+                    } catch (InputMismatchException e) {
+                        System.out.println("Wrong input");
+                        input.next();
+                        continue;
+                    }
+
+                }
+            }//end
 
         //end
 
         //test balance after buying
 
-            students[0].getDeposit().checkBalance();
+            //students[0].getDeposit().checkBalance();
             students[0].setGrade(4);
             students[0].setStudentID(students[0].getGrade());
             System.out.println("Student ID : "+ students[0].StudentIDAsString());
-            System.out.println("Student info " + students[0].toString());
+
+        System.out.println("Student info " + students[0].toString());
             //end
     }
 }

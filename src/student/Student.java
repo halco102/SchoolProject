@@ -3,18 +3,35 @@ package student;
 import courses.Cours;
 import deposit.Deposit;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Random;
 import java.util.Scanner;
+import java.util.stream.Collectors;
 
 public class Student {
+    private boolean close = false;
     private int coursNumber;
     private String firstName,lastName;
     private int year,grade,cash;
     private int[] studentID = new int[5];
     private Cours cours;
     private Deposit deposit;
+    private ArrayList<String> coursArraysList=new ArrayList<>();
 
+    private String test(ArrayList<String> c){
+
+        String listString = c.stream().map(Object::toString).collect(Collectors.joining(", "));
+        return  listString;
+    }
+
+    public ArrayList<String> getCoursArraysList() {
+        return coursArraysList;
+    }
+
+    public void setCoursArraysList(ArrayList<String> coursArraysList) {
+        this.coursArraysList = coursArraysList;
+    }
 
     public Student(){
 
@@ -91,9 +108,15 @@ public class Student {
                 ", grade=" + grade +
                 ", deposit=" + deposit.getBalance() +
                 ", studentID=" +  StudentIDAsString() +
-                ", cours =" + cours.getCourseByNumber(this.coursNumber)+
+                ", cours =" + test(this.coursArraysList)+
                 '}';
     }
+
+    private boolean checkString(String input){
+        return ((!input.equals(""))&&(input !=null)&&(input.matches("^[a-zA-Z]*$")));
+    }
+
+
 
     //getters and setters
 
@@ -134,7 +157,15 @@ public class Student {
     }
 
     public void setFirstName(String firstName) {
-        this.firstName = firstName;
+
+           if(this.checkString(firstName)==true){
+               this.firstName = firstName;
+               this.close=false;
+           }else {
+               System.out.println("Invalid input");
+               this.close=true;
+           }
+
     }
 
     public String getLastName() {
@@ -142,7 +173,22 @@ public class Student {
     }
 
     public void setLastName(String lastName) {
-        this.lastName = lastName;
+        if(this.checkString(lastName)==true){
+            this.lastName = lastName;
+            this.close=false;
+        }else {
+            System.out.println("Invalid input");
+            this.close=true;
+        }
+
+    }
+
+    public boolean isClose() {
+        return close;
+    }
+
+    public void setClose(boolean close) {
+        this.close = close;
     }
 
     public int getYear() {

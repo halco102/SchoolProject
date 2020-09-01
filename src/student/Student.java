@@ -8,7 +8,7 @@ import java.util.Random;
 import java.util.Scanner;
 
 public class Student {
-
+    private int coursNumber;
     private String firstName,lastName;
     private int year,grade,cash;
     private int[] studentID = new int[5];
@@ -40,9 +40,13 @@ public class Student {
         this.cash=cash;
     }
 
-    public void StudentIDAsString(){
-        System.out.print("Student ID : ");
-        System.out.print(getStudentID().toString());
+    public String StudentIDAsString(){
+        String formattedString = Arrays.toString(this.studentID)
+                .replace(",", "")  //remove the commas
+                .replace("[", "")  //remove the right bracket
+                .replace("]", "")  //remove the left bracket
+                .trim();
+        return formattedString;
     }
 
     public void setRandomCash(){
@@ -67,9 +71,9 @@ public class Student {
             return false;
     }
 
-    private int[] RandomID(){
+    private int[] RandomID(int grade){
         Random rand = new Random();
-        this.studentID[0] = this.grade;
+        this.studentID[0] = grade;
         for(int i = 1; i <= this.studentID.length-1 ; i ++ ){
             int randomNumbers = rand.nextInt(10);
 
@@ -78,7 +82,20 @@ public class Student {
         return this.studentID;
     }
 
-//getters and setters
+    @Override
+    public String toString() {
+        return "Student{" +
+                "firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", year=" + year +
+                ", grade=" + grade +
+                ", deposit=" + deposit.getBalance() +
+                ", studentID=" +  StudentIDAsString() +
+                ", cours =" + cours.getCourseByNumber(this.coursNumber)+
+                '}';
+    }
+
+    //getters and setters
 
 
     public Cours getCours() {
@@ -97,8 +114,9 @@ public class Student {
         this.deposit = deposit;
     }
 
+    public void setStudentID(int grade){this.RandomID(this.getGrade());}
     public int[] getStudentID() {
-        return RandomID();
+        return this.studentID;
     }
 
     public int getCash() {
@@ -143,5 +161,13 @@ public class Student {
         this.grade = grade;
     }
 
-   //end getter and setter
+    public int getCoursNumber() {
+        return coursNumber;
+    }
+
+    public void setCoursNumber(int coursNumber) {
+        this.coursNumber = coursNumber;
+    }
+
+    //end getter and setter
 }

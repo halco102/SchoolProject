@@ -4,10 +4,20 @@ package courses;
 import deposit.Deposit;
 import student.Student;
 
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+
 public class Cours {
     private String[] coursName = {"CS50","JS Crash Course","Mathematics I","English I" };
     private final int price = 600;
+    private ArrayList<Student> studentArray = new ArrayList();
 
+    public String getCourseByNumber(int coursNumber){
+
+          String temp;
+          temp = this.coursName[coursNumber];
+        return temp;
+    }
 
     public Cours(){}
 
@@ -39,6 +49,7 @@ public class Cours {
                     classEnroll(deposit,student);
                     System.out.println("Student name " + student.getFirstName() +
                             " you are accepted in the class " + coursName[0]);
+                    student.setCoursNumber(0);
                     break;
             case 1:
 
@@ -46,18 +57,21 @@ public class Cours {
                     classEnroll(deposit,student);
                     System.out.println("Student name " + student.getFirstName() +
                         " you are accepted in the class " + coursName[1]);
+                student.setCoursNumber(1);
                     break;
             case 2:
                     System.out.println(coursName[2]);
                     classEnroll(deposit,student);
                     System.out.println("Student name " + student.getFirstName() +
                         " you are accepted in the class " + coursName[2]);
+                student.setCoursNumber(2);
                     break;
             case 3:
                 System.out.println(coursName[3]);
                 classEnroll(deposit,student);
                 System.out.println("Student name " + student.getFirstName() +
                         " you are accepted in the class " + coursName[3]);
+                student.setCoursNumber(3);
                 break;
 
             default:
@@ -81,5 +95,11 @@ public class Cours {
         return price;
     }
 
+    public ArrayList<Student> getStudentArray() {
+        return studentArray;
+    }
 
+    public void setStudentArray(ArrayList<Student> studentArray) {
+        this.studentArray = studentArray;
+    }
 }

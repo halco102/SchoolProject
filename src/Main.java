@@ -82,12 +82,14 @@ public class Main {
         }
 
         //end
+
         //test balance after buying
 
             students[0].getDeposit().checkBalance();
             students[0].setGrade(4);
-            students[0].StudentIDAsString();
-            //System.out.println(students[0].StudentIDAsString());
-        //end
+            students[0].setStudentID(students[0].getGrade());
+            System.out.println("Student ID : "+ students[0].StudentIDAsString());
+            System.out.println("Student info " + students[0].toString());
+            //end
     }
 }
